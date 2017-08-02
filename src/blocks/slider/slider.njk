@@ -1,0 +1,11 @@
+<div class="slider">
+  <div class="slider__wrapper">
+    <div class="slider__window">
+      <div class="slider__strip">
+          {% for image in images %}
+             <div class="slider__item" style="background-image: url({{ image }})"></div>
+          {% endfor %}
+    </div>
+    </div>
+  </div>
+</div>

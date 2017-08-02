@@ -1,0 +1,16 @@
+{% extends "default.njk" %}
+
+{% block title %}
+    This is title
+{% endblock %}
+
+{% block content %}
+    <h1>Hello world!</h1>
+
+    {% set images = slider1 %}
+    {% include 'slider/slider.njk' %}
+
+    {% set images = slider2 %}
+    {% include 'slider/slider.njk' %}
+
+{% endblock %}
