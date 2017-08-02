@@ -20,7 +20,8 @@ const gulp = require('gulp'),
     runSequence = require('run-sequence').use(gulp),
     babel = require('gulp-babel'),
     nunjucksRender = require('gulp-nunjucks-render'),
-    data = require('gulp-data');
+    data = require('gulp-data'),
+    autoprefixer = require('gulp-autoprefixer');
 
 /* Конфигурация BrowserSync */
 const config = {
@@ -30,17 +31,17 @@ const config = {
     tunnel: false,
     host: 'localhost',
     port: 9000,
-    injectChanges: true,
+    injectChanges: false,
     logPrefix: "BrowserSync Log"
 };
 
 /* BrowserSync*/
-gulp.task('webserver', function () {
+gulp.task('webserver', function() {
     browserSync(config);
 });
 
 gulp.task('js', function () {
-    return gulp.src('src/blocks/**/*.js')
+    return gulp.src(['src/base.js', 'src/blocks/**/*.js'])
         .pipe(rigger())
         .pipe(concat('script.js'))
         .pipe(babel())
@@ -57,6 +58,9 @@ gulp.task('less', function() {
         .on('error', lessReporter)
         .pipe(csscomb())
         .pipe(concat('index.css'))
+        .pipe(autoprefixer({
+            browsers: 'last 4 version'
+        }))
         .pipe(gulp.dest('build/'))
         .pipe(rename({ suffix: '.min' }))
         .pipe(cleancss())

@@ -10,9 +10,11 @@
   },
   "homepage": "https://github.com/bcherepakha/gulp-default.git",
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "browser-sync": "^2.18.13",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
     "gulp-clean-css": "^3.7.0",
     "gulp-concat": "^2.6.1",
     "gulp-csscomb": "^3.0.8",
