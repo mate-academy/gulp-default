@@ -1,0 +1,25 @@
+http://beta.json-generator.com/Vyj2DKKwm
+[
+  {
+    'repeat(5, 10)': {
+      _id: '{{objectId()}}',
+      guid: '{{guid()}}',
+      author: {
+        first: '{{firstName()}}',
+        last: '{{surname()}}',
+        company: '{{company().toUpperCase()}}',
+        email: function (tags) {
+          return (this.first + '.' + this.last + '@' + this.company + tags.domainZone()).toLowerCase();
+        }
+      },
+      about: '{{lorem(1, "paragraphs")}}',
+      text: '{{lorem(5, "paragraphs")}}',
+      created: '{{moment(this.date(new Date(2014, 0, 1), new Date())).format("LLLL")}}',
+      tags: [
+        {
+          'repeat(5)': '{{lorem(1, "words")}}'
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,90 @@
+http://beta.json-generator.com/VJaYKtYPQ
+{
+  comments: [
+	{
+      'repeat(5, 10)': {
+        _id: '{{objectId()}}',
+        guid: '{{guid()}}',
+        post_id: '5990989b9b64524cfb32f8bf',
+        author: {
+          first: '{{firstName()}}',
+          last: '{{surname()}}',
+          company: '{{company().toUpperCase()}}',
+          email: function (tags) {
+            return (this.first + '.' + this.last + '@' + this.company + tags.domainZone()).toLowerCase();
+          }
+        },
+        text: '{{lorem(5, "paragraphs")}}',
+        created: '{{moment(this.date(new Date(2014, 0, 1), new Date())).format("LLLL")}}'
+      }
+    },
+	{
+      'repeat(5, 10)': {
+        _id: '{{objectId()}}',
+        guid: '{{guid()}}',
+        post_id: '5990989bf13d914bfe76586e',
+        author: {
+          first: '{{firstName()}}',
+          last: '{{surname()}}',
+          company: '{{company().toUpperCase()}}',
+          email: function (tags) {
+            return (this.first + '.' + this.last + '@' + this.company + tags.domainZone()).toLowerCase();
+          }
+        },
+        text: '{{lorem(5, "paragraphs")}}',
+        created: '{{moment(this.date(new Date(2014, 0, 1), new Date())).format("LLLL")}}'
+      }
+    },
+	{
+      'repeat(5, 10)': {
+        _id: '{{objectId()}}',
+        guid: '{{guid()}}',
+        post_id: '5990989b6b6efe20695b261f',
+        author: {
+          first: '{{firstName()}}',
+          last: '{{surname()}}',
+          company: '{{company().toUpperCase()}}',
+          email: function (tags) {
+            return (this.first + '.' + this.last + '@' + this.company + tags.domainZone()).toLowerCase();
+          }
+        },
+        text: '{{lorem(5, "paragraphs")}}',
+        created: '{{moment(this.date(new Date(2014, 0, 1), new Date())).format("LLLL")}}'
+      }
+    },
+	{
+      'repeat(5, 10)': {
+        _id: '{{objectId()}}',
+        guid: '{{guid()}}',
+        post_id: '5990989ba1c375a4a489532d',
+        author: {
+          first: '{{firstName()}}',
+          last: '{{surname()}}',
+          company: '{{company().toUpperCase()}}',
+          email: function (tags) {
+            return (this.first + '.' + this.last + '@' + this.company + tags.domainZone()).toLowerCase();
+          }
+        },
+        text: '{{lorem(5, "paragraphs")}}',
+        created: '{{moment(this.date(new Date(2014, 0, 1), new Date())).format("LLLL")}}'
+      }
+    },
+	{
+      'repeat(5, 10)': {
+        _id: '{{objectId()}}',
+        guid: '{{guid()}}',
+        post_id: '5990989bcc20587962070ce4',
+        author: {
+          first: '{{firstName()}}',
+          last: '{{surname()}}',
+          company: '{{company().toUpperCase()}}',
+          email: function (tags) {
+            return (this.first + '.' + this.last + '@' + this.company + tags.domainZone()).toLowerCase();
+          }
+        },
+        text: '{{lorem(5, "paragraphs")}}',
+        created: '{{moment(this.date(new Date(2014, 0, 1), new Date())).format("LLLL")}}'
+      }
+    }
+  ]
+}

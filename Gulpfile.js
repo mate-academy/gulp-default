@@ -5,9 +5,8 @@ const gulp = require('gulp'),
     fs = require('fs'),
     path = require('path'),
     watch = require('gulp-watch'),
-    rename = require("gulp-rename"),
+    rename = require('gulp-rename'),
     del = require('del'),
-    rigger = require('gulp-rigger'),
     concat = require('gulp-concat'),
     streamqueue = require('streamqueue'),
     less = require('gulp-less'),
@@ -15,10 +14,16 @@ const gulp = require('gulp'),
     csscomb = require('gulp-csscomb'),
     cleancss = require('gulp-clean-css'),
     uglify = require('gulp-uglify'),
-    browserSync = require("browser-sync"),
-    reload = browserSync.reload,
+    browserSync = require('browser-sync'),
+    staticServer = browserSync.create(),
+    reload = staticServer.reload,
+    jsonServer = require('json-server'),
+    apiServer = jsonServer.create(),
     runSequence = require('run-sequence').use(gulp),
-    babel = require('gulp-babel'),
+    browserify = require('browserify'),
+    source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
+    babelify = require('babelify'),
     nunjucksRender = require('gulp-nunjucks-render'),
     data = require('gulp-data'),
     autoprefixer = require('gulp-autoprefixer');
@@ -26,25 +31,67 @@ const gulp = require('gulp'),
 /* Конфигурация BrowserSync */
 const config = {
     server: {
-        baseDir: "./build"
+        baseDir: './build'
     },
     tunnel: false,
     host: 'localhost',
     port: 9000,
     injectChanges: false,
-    logPrefix: "BrowserSync Log"
+    logPrefix: 'BrowserSync Log'
 };
+
+/* Конфигурация Api */
+const apiConfig = {
+    db:  path.resolve('./build/api/db.json'),
+    port: 3000,
+    hostname: 'localhost'
+};
+
+/* API server */
+gulp.task('apiserver', function() {
+    const router = jsonServer.router(apiConfig.db),
+        middlewares = jsonServer.defaults();
+
+    apiServer.use(middlewares);
+    apiServer.use(router);
+    apiServer.listen(apiConfig.port, () => {
+        console.log('JSON Server is running');
+    });
+});
 
 /* BrowserSync*/
 gulp.task('webserver', function() {
-    browserSync(config);
+    // browserSync(config);
+    staticServer.init(config);
+});
+
+/* Run server merge BrowserSync and API */
+gulp.task('devserver', function(next) {
+    staticServer.init(config, function (err, server) {
+        // crate api server
+        const router = jsonServer.router(apiConfig.db),
+            middlewares = jsonServer.defaults();
+
+        apiServer.use(middlewares);
+        apiServer.use(router);
+
+        // add api server to browser-sync server instance
+        server.app.use('/api', apiServer);
+        next();
+    });
 });
 
 gulp.task('js', function () {
-    return gulp.src(['src/base.js', 'src/blocks/**/*.js'])
-        .pipe(rigger())
-        .pipe(concat('script.js'))
-        .pipe(babel())
+    return browserify({
+            entries: 'src/base.js'
+        })
+        .transform(babelify)
+        .bundle()
+        .on('error', err => {
+            console.log("Browserify Error", err.message);
+        })
+        .pipe(source('app.js'))
+        .pipe(buffer())
         .pipe(gulp.dest('build/js/'))
         .pipe(rename({ suffix: '.min' }))
         .pipe(uglify())
@@ -107,7 +154,7 @@ gulp.task('build', function(cb) {
     return runSequence('clean', 'static', 'less', 'images', 'js', 'html', cb);
 });
 
-gulp.task('watch', ['webserver'], function() {
+gulp.task('watch', ['devserver'], function() {
     watch(['src/static/**/*'], function(event, cb) {
         gulp.start('static');
     });
@@ -117,7 +164,7 @@ gulp.task('watch', ['webserver'], function() {
     watch(['src/blocks/**/img/*.*'], function(event, cb) {
         gulp.start('images');
     });
-    watch(['src/blocks/**/*.js'], function(event, cb) {
+    watch(['src/base.js','src/blocks/**/*.js'], function(event, cb) {
         gulp.start('js');
     });
     watch(['src/pages/*.njk', '.src/blocks/**/*.njk', './src/layouts/*.njk'], function(event, cb) {
