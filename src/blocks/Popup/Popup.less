@@ -1,0 +1,27 @@
+.popup
+{
+    width: 70%;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+
+    &__wrapper
+    {
+        position: fixed;
+        background: fade(black, 50%);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        overflow: auto;
+        display: none;
+        justify-content: center;
+        align-items: center;
+
+        &--visible
+        {
+            display: flex;
+        }
+    }
+}

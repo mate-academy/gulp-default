@@ -33,7 +33,7 @@ export default function send(params) {
              }
          }
 
-         if (params.body && params.headers['Content-Type'] === 'multipart/form-data') {
+         if (params.body && params.headers && params.headers['Content-Type'] === 'multipart/form-data') {
              const body = new FormData();
 
              Object.keys(params.body).forEach(key => {
@@ -41,7 +41,7 @@ export default function send(params) {
              });
 
              xhr.send(body);
-         } else if (params.body && params.headers['Content-Type'] === 'application/json') {
+         } else if (params.body && params.headers && params.headers['Content-Type'] === 'application/json') {
              const body = JSON.stringify(params.body);
 
              xhr.send(body);

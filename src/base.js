@@ -46,10 +46,12 @@ import 'babel-polyfill';
 
 // Practice
 
-import {getPosts, getPost, getComments} from './blocks/DB/DB.js';
+import {getPosts, getPost, getComments, sendComment} from './blocks/DB/DB.js';
 import {getQueryParam} from './blocks/i/iEssential.js';
 import Article from './blocks/Article/Article.js';
-import Comments from './blocks/Article/Comments.js';
+import Comments from './blocks/Comments/Comments.js';
+import Watch from './blocks/Watch/Watch.js';
+import {closePopup} from './blocks/Popup/Popup.js';
 
 const Store = {},
     pageTitle = document.getElementById('page-title'),
@@ -60,6 +62,33 @@ const Store = {},
 console.log('location', getQueryParam(window.location));
 console.log({pathname});
 
+document.body.appendChild(Watch());
+
+// submitHandler = _id => newComment => {
+//
+// }
+
+function submitHandler(_id) {
+    return function(newComment) {
+        newComment.post_id = _id;
+
+        return sendComment(newComment)
+            .then(({responseData}) => {
+                closePopup();
+                const event = new Event('addComment');
+                event.details = responseData;
+
+                document.dispatchEvent(event);
+            })
+            .catch((...arg) => console.error(arg));
+    }
+}
+
+
+// function submitHandler(_id, newComment) {
+//
+// }
+
 switch (pathname) {
     case '/article.html':
         getPost(pageParams.id)
@@ -69,12 +98,11 @@ switch (pathname) {
                 return getComments(Store.article._id)
             })
             .then(({responseData}) => {
-                console.log(responseData);
-
                 content.innerHTML = '';
                 pageTitle.innerText = `Article ${Store.article.guid}`;
                 content.appendChild(Article(Store.article, false));
-                content.appendChild(Comments(responseData));
+                content.appendChild(Comments(Store.article._id, responseData, submitHandler(Store.article._id)));
+                // content.appendChild(Comments(responseData, submitHandler.bind(this, Store.article._id)));
             });
         break;
     default:
