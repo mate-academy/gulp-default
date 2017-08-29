@@ -100,6 +100,7 @@ gulp.task('js', function () {
 
 gulp.task('less', function() {
     return gulp.src(['src/base.less', 'src/blocks/**/*.less'])
+        .pipe(concat('index.less'))
         .pipe(less())
         .on('error', lessReporter)
         .pipe(csscomb())
