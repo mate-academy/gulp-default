@@ -1,69 +1,68 @@
-# Базовый шаблон проекта на Gulp
+# Base template for Gulp
 
-Пример шаблона для начала работ над frontend проектами
+Template to start from before starting frontend projects.
 
-## Перед началом работы
+## Before you start
 
-Для работы шаблона необходимо установить `nodejs` (вместе с `npm`)
+Install `nodejs` (it includes `npm`)
 
-- [Установка Nodejs](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager "Installing Node.js via package manager")
+- [Nodejs installation](https://nodejs.org/en/download/package-manager/)
 
-## Установка шаблона
+## Install template
 
 ``` sh
-$ git clone https://github.com/bcherepakha/gulp-default.git project-name
+$ git clone https://github.com/mate-academy/gulp-default.git project-name
 $ cd project-name
 $ npm install
 ```
 
-По окончанию выполнения будут установлены все необходимые пакеты.
+All packages will be installed after executing the script above. пакеты.
 
-## Build проекта
+## Build the project
 
 ``` sh
 $ gulp build
 ```
 
-## Dev проекта
+## Development mode 
 
 ``` sh
 $ gulp watch
 ```
 
-### Задачи Gulp
+### Gulp tasks
 
- - `$ gulp html` - сборка страниц
- - `$ gulp js` - сборка JS
- - `$ gulp less` - компилиция LESS
- - `$ gulp clean` - очистка каталога `build/`
- - `$ gulp webserver` - запуск локального веб-сервера для livereload
- - `$ gulp build` - полная сборка проекта
- - `$ gulp watch` - запуск задачи `webserver` и отслеживания изменений
- - `$ gulp default` - запуск задачи `watch`
+ - `$ gulp html` - compile pages
+ - `$ gulp js` - compile JS
+ - `$ gulp less` - compile LESS
+ - `$ gulp clean` - clean `build/` directory
+ - `$ gulp webserver` - start local web server with livereload
+ - `$ gulp build` - full project compilation
+ - `$ gulp watch` - start `webserver` and watch for changes
+ - `$ gulp default` - start `watch` task
 
-## Общая концепция
+## Project structure
 
-- `src/` - каталог для размещения рабочих файлов (html, less, js, изображения)
-- `src/blocks` - блоки из которых собирается проект
-- `src/layouts` - layouts страниц
-- `src/pages` - страницы
-- `build/` - каталог для размещения готовой верстки
+- `src/` - directory for html, less, js, image files
+- `src/blocks` - project building blocks
+- `src/layouts` - page layouts
+- `src/pages` - individual pages
+- `build/` - directory for built pages
 
-Вся работа осуществляется в каталоге `src/`.
+You should be writing code in `src/` directory.
 
-### Livereload и синхронизация между браузерами
+### Livereload and syncronization with browsers
 
-Задача `$ gulp webserver`
+Task `$ gulp webserver`
 
-При выполнении задачи запускается локальный веб-сервер BrowserSync и открыватся index.html проекта.  
+When task is executed, gulp starts local web server BrowserSync and opens index.html.  
 
-[Подробнее о BrowserSync](http://www.browsersync.io/ "Подробнее о BrowserSync")  
+[About BrowserSync](http://www.browsersync.io/)  
 
-Сервер использует каталог `build/` в качестве корня проекта.
+Server uses `build/` as a project root.
 
-### Отслеживание изменений
+### Watching changes
 
-Задача `$ gulp watch`
+Task `$ gulp watch`
 
-При запуске сначала выполняется задача `$ gulp webserver`, затем при изменении или добавлении в каталоге `src/` каких  
-либо файлов, автоматически запускается соответсвующая задача по их обработке.
+When task starts task `$ gulp webserver` is exectured. When files within `src/` changes automatically task to process file is executed.
